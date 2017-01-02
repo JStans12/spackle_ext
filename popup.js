@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function(){
+$(document).ready(function(){
 
   chrome.tabs.query({
     active: true,
