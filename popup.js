@@ -9,10 +9,25 @@ function requestComments(url){
   });
 }
 
-function displayComments(comments){
+function displayComments(comments,  depth = 1){
   $.each(comments, function(index, comment){
-    $('#comments').append("<p>" + comment['body'] + "</p>");
-    displayComments(comment['children']);
+
+    var background
+    if(depth % 2 == 0){
+      background = "gainsboro"
+    } else {
+      background = "white"
+    }
+
+    var margin
+    if(depth == 1){
+      margin = 20
+    } else {
+      margin = 0
+    }
+
+    $('#comments').append("<div class='comment parent" + comment['parent_id'] + "' style='margin-left:" + depth * 12 + "px; background-color:" + background + "; margin-top:" + margin + "px;'><div class='ups'><div class='vote'><i class='voter fa fa-lg fa-arrow-circle-o-up' aria-hidden='true'></i><i class='voter fa fa-lg fa-arrow-circle-o-down' aria-hidden='true'></i></div><div class='score'>" + comment['score'] + "</div></div><div class='comment-head'><a class='author' href=''>" + comment['author']['name'] +"</a>" + moment(comment['created_at']).fromNow() + "</div><div class='comment-body'>" + comment['body'] + "</div><div class='comment-footer'><a class='reply' href=''>reply</a></div></div>");
+    displayComments(comment['children'], depth + 1);
   });
 }
 
