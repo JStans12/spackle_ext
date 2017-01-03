@@ -11,7 +11,8 @@ function requestComments(url){
 
 function displayComments(comments){
   $.each(comments, function(index, comment){
-    $('#comments').append("<p>" + comment['body'] + "</p>")
+    $('#comments').append("<p>" + comment['body'] + "</p>");
+    displayComments(comment['children']);
   });
 }
 
