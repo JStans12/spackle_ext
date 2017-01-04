@@ -11,8 +11,29 @@
 
 <body>
 
-  <div id="topbar">
+  <div id="navbar" class="smooth">
     <div id="title">Spackle</div>
+
+    <div id="navlinks">
+
+      <div id='logged-out' class="hidden">
+        <a id='login-link' class='navlink'>Login</a>
+        <a class='navlink'>Register</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="user-forms">
+
+    <div id='login-form' class='hidden'>
+      <form>
+        Username <input class="form-input" type="text" name="name">
+        Password <input class="form-input" type="text" name="password">
+        <button class="form-button">Login</button>
+      </form>
+    </div>
+
   </div>
 
   <div id="comments"></div>

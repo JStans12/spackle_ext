@@ -31,7 +31,23 @@ function displayComments(comments,  depth = 1){
   });
 }
 
+function showLogin(){
+  $('#navbar').removeClass('smooth');
+  $('#login-form').removeClass('hidden');
+}
+
 $(document).ready(function(){
+
+  var userToken
+  chrome.storage.sync.get("user_token", function(token){
+    userToken = token;
+  });
+
+  if (typeof userToken == 'undefined'){
+    $('#logged-out').removeClass('hidden');
+  } else {
+    console.log("yep")
+  }
 
   chrome.tabs.query({
     active: true,
@@ -41,4 +57,8 @@ $(document).ready(function(){
     var tab = tabs[0];
     requestComments(tab.url);
   });
+
+  $('#login-link').click(function(){
+    showLogin();
+  })
 });
