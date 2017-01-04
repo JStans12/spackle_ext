@@ -11,14 +11,14 @@
 
 <body>
 
-  <div id="navbar" class="smooth">
+  <div id="navbar">
     <div id="title">Spackle</div>
 
     <div id="navlinks">
 
       <div id='logged-out' class="hidden">
         <a id='login-link' class='navlink'>Login</a>
-        <a class='navlink'>Register</a>
+        <a id='register-link' class='navlink'>Register</a>
       </div>
 
     </div>
@@ -31,6 +31,18 @@
         Username <input class="form-input" type="text" name="name">
         Password <input class="form-input" type="text" name="password">
         <button class="form-button">Login</button>
+      </form>
+    </div>
+
+    <div id='register-form' class='hidden'>
+      <form>
+        Username <input class="form-input" type="text" name="name">
+        &nbsp; Email &nbsp;<input class="form-input" type="text" name="email">
+        <br><br>
+        Password <input class="form-input" type="text" name="password">
+        Confirm <input class="form-input" type="text" name="confirm">
+        <br><br>
+        <button class="form-button">Register</button>
       </form>
     </div>
 
