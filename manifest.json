@@ -10,6 +10,9 @@
 
   "permissions": [
     "activeTab",
-    "tabs"
+    "tabs",
+    "storage",
+    "http://fonts.googleapis.com/",
+    "https://fonts.googleapis.com/"
   ]
 }

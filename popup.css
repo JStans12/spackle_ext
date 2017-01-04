@@ -4,6 +4,20 @@ body {
   padding-bottom: 8px;
 }
 
+#topbar {
+  width: 100%;
+  height: 60px;
+  border-radius: 5px;
+  background-color: lightcyan;
+}
+
+#title {
+  font-family: 'Special Elite', cursive;
+  font-size: 30px;
+  padding-left: 18px;
+  padding-top: 18px;
+}
+
 .comment {
   border-radius: 5px;
   margin-right: 8px;
@@ -20,7 +34,7 @@ body {
 }
 
 .vote {
-  padding-top: 8px;
+  padding-top: 10px;
   padding-left: 8px;
 }
 
@@ -29,7 +43,7 @@ body {
 }
 
 .score {
-  padding-top: 8px;
+  padding-top: 10px;
   padding-left: 27px;
   font-size: 16px;
   color: darkcyan;
