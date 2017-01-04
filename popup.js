@@ -84,4 +84,8 @@ $(document).ready(function(){
   $('#title').click(function(){
     goHome();
   });
+
+  $('form').submit(function(e){
+    e.preventDefault();
+  });
 });
