@@ -5,6 +5,9 @@ function requestComments(url){
     headers: { url: url },
     success: function(comments){
       displayComments(comments);
+    },
+    failure: function(err){
+      console.error(err);
     }
   });
 }
