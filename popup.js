@@ -1,7 +1,9 @@
+var API = 'http://localhost:3000/'
+
 function requestComments(url){
   $.ajax({
     type: 'GET',
-    url: 'http://localhost:3000/api/v1/comments',
+    url: API + 'api/v1/comments',
     headers: { url: url },
     success: function(comments){
       displayComments(comments);
@@ -44,6 +46,11 @@ function showRegister(){
   $('#register-form').removeClass('hidden');
 }
 
+function goHome(){
+  $('#register-form').addClass('hidden');
+  $('#login-form').addClass('hidden');
+}
+
 $(document).ready(function(){
 
   var userToken
@@ -72,5 +79,9 @@ $(document).ready(function(){
 
   $('#register-link').click(function(){
     showRegister();
+  });
+
+  $('#title').click(function(){
+    goHome();
   });
 });
