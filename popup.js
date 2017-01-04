@@ -1,5 +1,23 @@
 var API = 'http://localhost:3000/'
 
+function requestMeData(){
+  chrome.storage.sync.get("userToken", function(token){
+    var userToken = token['userToken'];
+
+    $.ajax({
+      type: 'GET',
+      url: API + 'api/v1/me',
+      headers: { token: userToken },
+      success: function(user){
+        $('#user-link').append(user['name'])
+      },
+      failure: function(err){
+        console.error(err);
+      }
+    });
+  });
+}
+
 function requestComments(url){
   $.ajax({
     type: 'GET',
@@ -88,6 +106,7 @@ $(document).ready(function(){
       $('#logged-out').removeClass('hidden');
     } else {
       $('#logged-in').removeClass('hidden');
+      requestMeData();
     }
   });
 
