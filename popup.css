@@ -46,8 +46,6 @@ body {
 #login-form{
   width: 100%;
   background-color: lightcyan;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
   text-align: center;
   padding-bottom: 8px;
 }
@@ -55,8 +53,6 @@ body {
 #register-form{
   width: 100%;
   background-color: lightcyan;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
   padding-bottom: 4px;
   text-align: center;
   padding-bottom: 8px;
@@ -145,4 +141,5 @@ body {
   border-bottom-right-radius: 5px;
   text-align: center;
   padding-bottom: 8px;
+  padding-top: 8px;
 }

@@ -68,6 +68,9 @@ function requestLogin(){
     },
     error: function(err){
       $('#navbar').removeClass('smooth');
+      $('#login-form').removeClass('smooth');
+      $('#register-form').removeClass('smooth');
+      $('#errors').html('');
       $('#errors').removeClass('hidden');
       $('#errors').append('Login failed')
     }
@@ -88,18 +91,23 @@ function showLogin(){
   $('#navbar').removeClass('smooth');
   $('#register-form').addClass('hidden');
   $('#login-form').removeClass('hidden');
+  $('#login-form').addClass('smooth');
+  $('#errors').addClass('hidden');
 }
 
 function showRegister(){
   $('#navbar').removeClass('smooth');
   $('#login-form').addClass('hidden');
   $('#register-form').removeClass('hidden');
+  $('#register-form').addClass('smooth');
+  $('#errors').addClass('hidden');
 }
 
 function goHome(){
   $('#register-form').addClass('hidden');
   $('#login-form').addClass('hidden');
   $('#navbar').addClass('smooth');
+  $('#errors').addClass('hidden');
 }
 
 $(document).ready(function(){
