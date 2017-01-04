@@ -36,6 +36,27 @@ function displayComments(comments,  depth = 1){
   });
 }
 
+function requestLogin(){
+
+  var name = $('#login-form input[name="name"]').val();
+  var password = $('#login-form input[name="password"]').val();
+
+  $.ajax({
+    type: 'POST',
+    url: API + 'api/v1/login',
+    headers: { name: name, password: password },
+    success: function(user){
+      login(user);
+    }
+  });
+}
+
+function login(user){
+  debugger;
+  chrome.storage.sync.set({'userToken': user['token']})
+  location.reload();
+}
+
 function showLogin(){
   $('#navbar').removeClass('smooth');
   $('#register-form').addClass('hidden');
@@ -56,16 +77,15 @@ function goHome(){
 
 $(document).ready(function(){
 
-  var userToken
-  chrome.storage.sync.get("user_token", function(token){
-    userToken = token;
-  });
+  chrome.storage.sync.get("userToken", function(token){
+    var userToken = token['userToken'];
 
-  if (typeof userToken == 'undefined'){
-    $('#logged-out').removeClass('hidden');
-  } else {
-    console.log("yep")
-  }
+    if (typeof userToken == 'undefined'){
+      $('#logged-out').removeClass('hidden');
+    } else {
+      $('#logged-in').removeClass('hidden');
+    }
+  });
 
   chrome.tabs.query({
     active: true,
@@ -87,6 +107,10 @@ $(document).ready(function(){
   $('#title').click(function(){
     goHome();
   });
+
+  $('#login-form').submit(function(){
+    requestLogin();
+  })
 
   $('form').submit(function(e){
     e.preventDefault();
