@@ -37,11 +37,13 @@ function displayComments(comments,  depth = 1){
 }
 
 function showLogin(){
+  $('#navbar').removeClass('smooth');
   $('#register-form').addClass('hidden');
   $('#login-form').removeClass('hidden');
 }
 
 function showRegister(){
+  $('#navbar').removeClass('smooth');
   $('#login-form').addClass('hidden');
   $('#register-form').removeClass('hidden');
 }
@@ -49,6 +51,7 @@ function showRegister(){
 function goHome(){
   $('#register-form').addClass('hidden');
   $('#login-form').addClass('hidden');
+  $('#navbar').addClass('smooth');
 }
 
 $(document).ready(function(){
