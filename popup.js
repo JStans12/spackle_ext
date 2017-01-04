@@ -52,8 +52,12 @@ function requestLogin(){
 }
 
 function login(user){
-  debugger;
-  chrome.storage.sync.set({'userToken': user['token']})
+  chrome.storage.sync.set({'userToken': user['token']});
+  location.reload();
+}
+
+function logout(){
+  chrome.storage.sync.remove('userToken');
   location.reload();
 }
 
@@ -110,6 +114,10 @@ $(document).ready(function(){
 
   $('#login-form').submit(function(){
     requestLogin();
+  })
+
+  $('#logout-link').click(function(){
+    logout();
   })
 
   $('form').submit(function(e){
