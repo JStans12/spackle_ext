@@ -11,7 +11,7 @@ function requestMeData(){
       success: function(user){
         $('#user-link').append(user['name'])
       },
-      failure: function(err){
+      error: function(err){
         console.error(err);
       }
     });
@@ -26,7 +26,7 @@ function requestComments(url){
     success: function(comments){
       displayComments(comments);
     },
-    failure: function(err){
+    error: function(err){
       console.error(err);
     }
   });
@@ -65,6 +65,11 @@ function requestLogin(){
     headers: { name: name, password: password },
     success: function(user){
       login(user);
+    },
+    error: function(err){
+      $('#navbar').removeClass('smooth');
+      $('#errors').removeClass('hidden');
+      $('#errors').append('Login failed')
     }
   });
 }

@@ -136,3 +136,13 @@ body {
 .hidden {
   display: none;
 }
+
+#errors {
+  font-family: 'Special Elite', cursive;
+  color: red;
+  background-color: lightcyan;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  text-align: center;
+  padding-bottom: 8px;
+}
