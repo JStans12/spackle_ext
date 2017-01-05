@@ -1,4 +1,17 @@
 var API = 'http://localhost:3000/'
+var url;
+getUrl();
+
+function getUrl(callback){
+  chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true
+
+  }, function(tabs){
+    var tab = tabs[0];
+    url = tab.url;
+  });
+}
 
 function requestMeData(userToken){
   $.ajax({
@@ -14,7 +27,8 @@ function requestMeData(userToken){
   });
 }
 
-function requestComments(url){
+function requestComments(){
+  console.log(url)
   $.ajax({
     type: 'GET',
     url: API + 'api/v1/comments',
@@ -160,14 +174,7 @@ $(document).ready(function(){
     }
   });
 
-  chrome.tabs.query({
-    active: true,
-    lastFocusedWindow: true
-
-  }, function(tabs){
-    var tab = tabs[0];
-    requestComments(tab.url);
-  });
+  requestComments();
 
   $('#login-link').click(function(){
     showLogin();
