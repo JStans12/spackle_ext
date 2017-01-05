@@ -62,7 +62,7 @@ function requestLogin(){
   $.ajax({
     type: 'POST',
     url: API + 'api/v1/login',
-    headers: { name: name, password: password },
+    data: { name: name, password: password },
     success: function(user){
       login(user);
     },
