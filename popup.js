@@ -1,20 +1,17 @@
 var API = 'http://localhost:3000/'
 
-function requestMeData(){
-  chrome.storage.sync.get("userToken", function(token){
-    var userToken = token['userToken'];
+function requestMeData(userToken){
 
-    $.ajax({
-      type: 'GET',
-      url: API + 'api/v1/me',
-      headers: { token: userToken },
-      success: function(user){
-        $('#user-link').append(user['name'])
-      },
-      error: function(err){
-        console.error(err);
-      }
-    });
+  $.ajax({
+    type: 'GET',
+    url: API + 'api/v1/me',
+    data: { token: userToken },
+    success: function(user){
+      $('#user-link').append(user['name'])
+    },
+    error: function(err){
+      console.error(err);
+    }
   });
 }
 
@@ -62,17 +59,31 @@ function requestLogin(){
   $.ajax({
     type: 'POST',
     url: API + 'api/v1/login',
-    headers: { name: name, password: password },
+    data: { name: name, password: password },
     success: function(user){
       login(user);
     },
     error: function(err){
-      $('#navbar').removeClass('smooth');
-      $('#login-form').removeClass('smooth');
-      $('#register-form').removeClass('smooth');
-      $('#errors').html('');
-      $('#errors').removeClass('hidden');
-      $('#errors').append('Login failed')
+      loginError(err);
+    }
+  });
+}
+
+function requestRegister(){
+  var name = $('#register-form input[name="name"]').val();
+  var email = $('#register-form input[name="email"]').val();
+  var password = $('#register-form input[name="password"]').val();
+  var confirm = $('#register-form input[name="confirm"]').val();
+
+  $.ajax({
+    type: 'POST',
+    url: API + 'api/v1/users',
+    data: { name: name, email: email, password: password, password_confirmation: confirm },
+    success: function(){
+      registrationSuccess(name);
+    },
+    error: function(err){
+      registrationError(err);
     }
   });
 }
@@ -82,32 +93,59 @@ function login(user){
   location.reload();
 }
 
+function loginError(err){
+  $('#navbar').removeClass('smooth');
+  $('#login-form').removeClass('smooth');
+  $('#feedback').html('')
+                .removeClass('success')
+                .addClass('error')
+                .removeClass('hidden')
+                .append('Login failed');
+}
+
 function logout(){
   chrome.storage.sync.remove('userToken');
   location.reload();
 }
 
+function registrationSuccess(name){
+  $('#register-form').removeClass('smooth');
+  $('#register-form input').val('');
+  $('#feedback').html('')
+                .removeClass('error')
+                .addClass('success')
+                .removeClass('hidden')
+                .append('Thanks, ' + name + ' please check your email!');
+}
+
+function registrationError(err){
+  $('#register-form').removeClass('smooth');
+  $('#register-form input').val('');
+  $('#feedback').html('')
+                .removeClass('success')
+                .addClass('error')
+                .removeClass('hidden')
+                .append('Registration failed');
+}
+
 function showLogin(){
   $('#navbar').removeClass('smooth');
   $('#register-form').addClass('hidden');
-  $('#login-form').removeClass('hidden');
-  $('#login-form').addClass('smooth');
-  $('#errors').addClass('hidden');
+  $('#feedback').addClass('hidden');
+  $('#login-form').removeClass('hidden')
+                  .addClass('smooth');
 }
 
 function showRegister(){
   $('#navbar').removeClass('smooth');
   $('#login-form').addClass('hidden');
-  $('#register-form').removeClass('hidden');
-  $('#register-form').addClass('smooth');
-  $('#errors').addClass('hidden');
+  $('#feedback').addClass('hidden');
+  $('#register-form').removeClass('hidden')
+                      .addClass('smooth');
 }
 
 function goHome(){
-  $('#register-form').addClass('hidden');
-  $('#login-form').addClass('hidden');
-  $('#navbar').addClass('smooth');
-  $('#errors').addClass('hidden');
+  location.reload();
 }
 
 $(document).ready(function(){
@@ -119,7 +157,7 @@ $(document).ready(function(){
       $('#logged-out').removeClass('hidden');
     } else {
       $('#logged-in').removeClass('hidden');
-      requestMeData();
+      requestMeData(userToken);
     }
   });
 
@@ -146,6 +184,10 @@ $(document).ready(function(){
 
   $('#login-form').submit(function(){
     requestLogin();
+  })
+
+  $('#register-form').submit(function(){
+    requestRegister();
   })
 
   $('#logout-link').click(function(){
