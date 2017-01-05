@@ -89,16 +89,22 @@ function requestRegister(){
     url: API + 'api/v1/users',
     data: { name: name, email: email, password: password, password_confirmation: confirm },
     success: function(){
-      $('#navbar').removeClass('smooth');
       $('#register-form').removeClass('smooth');
+      $('#register-form input').val('');
       $('#feedback').html('');
       $('#feedback').removeClass('error');
       $('#feedback').addClass('success');
       $('#feedback').removeClass('hidden');
-      $('#feedback').append('Thanks, ' + name + ' please check your email to confirm your registraiton!');
+      $('#feedback').append('Thanks, ' + name + ' please check your email!');
     },
     error: function(){
-      console.log("well shit");
+      $('#register-form').removeClass('smooth');
+      $('#register-form input').val('');
+      $('#feedback').html('');
+      $('#feedback').removeClass('success');
+      $('#feedback').addClass('error');
+      $('#feedback').removeClass('hidden');
+      $('#feedback').append('Registration failed');
     }
   });
 }
@@ -130,10 +136,7 @@ function showRegister(){
 }
 
 function goHome(){
-  $('#register-form').addClass('hidden');
-  $('#login-form').addClass('hidden');
-  $('#navbar').addClass('smooth');
-  $('#feedback').addClass('hidden');
+  location.reload();
 }
 
 $(document).ready(function(){
