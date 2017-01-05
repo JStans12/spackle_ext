@@ -70,9 +70,11 @@ function requestLogin(){
       $('#navbar').removeClass('smooth');
       $('#login-form').removeClass('smooth');
       $('#register-form').removeClass('smooth');
-      $('#errors').html('');
-      $('#errors').removeClass('hidden');
-      $('#errors').append('Login failed')
+      $('#feedback').html('');
+      $('#feedback').removeClass('success');
+      $('#feedback').addClass('error');
+      $('#feedback').removeClass('hidden');
+      $('#feedback').append('Login failed')
     }
   });
 }
@@ -92,7 +94,7 @@ function showLogin(){
   $('#register-form').addClass('hidden');
   $('#login-form').removeClass('hidden');
   $('#login-form').addClass('smooth');
-  $('#errors').addClass('hidden');
+  $('#feedback').addClass('hidden');
 }
 
 function showRegister(){
@@ -100,14 +102,14 @@ function showRegister(){
   $('#login-form').addClass('hidden');
   $('#register-form').removeClass('hidden');
   $('#register-form').addClass('smooth');
-  $('#errors').addClass('hidden');
+  $('#feedback').addClass('hidden');
 }
 
 function goHome(){
   $('#register-form').addClass('hidden');
   $('#login-form').addClass('hidden');
   $('#navbar').addClass('smooth');
-  $('#errors').addClass('hidden');
+  $('#feedback').addClass('hidden');
 }
 
 $(document).ready(function(){

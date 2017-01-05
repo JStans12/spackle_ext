@@ -133,13 +133,20 @@ body {
   display: none;
 }
 
-#errors {
+#feedback {
   font-family: 'Special Elite', cursive;
-  color: red;
   background-color: lightcyan;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   text-align: center;
   padding-bottom: 8px;
   padding-top: 8px;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
 }
