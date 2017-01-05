@@ -1,20 +1,17 @@
 var API = 'http://localhost:3000/'
 
-function requestMeData(){
-  chrome.storage.sync.get("userToken", function(token){
-    var userToken = token['userToken'];
+function requestMeData(userToken){
 
-    $.ajax({
-      type: 'GET',
-      url: API + 'api/v1/me',
-      data: { token: userToken },
-      success: function(user){
-        $('#user-link').append(user['name'])
-      },
-      error: function(err){
-        console.error(err);
-      }
-    });
+  $.ajax({
+    type: 'GET',
+    url: API + 'api/v1/me',
+    data: { token: userToken },
+    success: function(user){
+      $('#user-link').append(user['name'])
+    },
+    error: function(err){
+      console.error(err);
+    }
   });
 }
 
@@ -67,13 +64,7 @@ function requestLogin(){
       login(user);
     },
     error: function(err){
-      $('#navbar').removeClass('smooth');
-      $('#login-form').removeClass('smooth');
-      $('#feedback').html('');
-      $('#feedback').removeClass('success');
-      $('#feedback').addClass('error');
-      $('#feedback').removeClass('hidden');
-      $('#feedback').append('Login failed');
+      loginError(err);
     }
   });
 }
@@ -89,22 +80,10 @@ function requestRegister(){
     url: API + 'api/v1/users',
     data: { name: name, email: email, password: password, password_confirmation: confirm },
     success: function(){
-      $('#register-form').removeClass('smooth');
-      $('#register-form input').val('');
-      $('#feedback').html('');
-      $('#feedback').removeClass('error');
-      $('#feedback').addClass('success');
-      $('#feedback').removeClass('hidden');
-      $('#feedback').append('Thanks, ' + name + ' please check your email!');
+      registrationSuccess(name);
     },
-    error: function(){
-      $('#register-form').removeClass('smooth');
-      $('#register-form input').val('');
-      $('#feedback').html('');
-      $('#feedback').removeClass('success');
-      $('#feedback').addClass('error');
-      $('#feedback').removeClass('hidden');
-      $('#feedback').append('Registration failed');
+    error: function(err){
+      registrationError(err);
     }
   });
 }
@@ -114,9 +93,39 @@ function login(user){
   location.reload();
 }
 
+function loginError(err){
+  $('#navbar').removeClass('smooth');
+  $('#login-form').removeClass('smooth');
+  $('#feedback').html('');
+  $('#feedback').removeClass('success');
+  $('#feedback').addClass('error');
+  $('#feedback').removeClass('hidden');
+  $('#feedback').append('Login failed');
+}
+
 function logout(){
   chrome.storage.sync.remove('userToken');
   location.reload();
+}
+
+function registrationSuccess(name){
+  $('#register-form').removeClass('smooth');
+  $('#register-form input').val('');
+  $('#feedback').html('');
+  $('#feedback').removeClass('error');
+  $('#feedback').addClass('success');
+  $('#feedback').removeClass('hidden');
+  $('#feedback').append('Thanks, ' + name + ' please check your email!');
+}
+
+function registrationError(err){
+  $('#register-form').removeClass('smooth');
+  $('#register-form input').val('');
+  $('#feedback').html('');
+  $('#feedback').removeClass('success');
+  $('#feedback').addClass('error');
+  $('#feedback').removeClass('hidden');
+  $('#feedback').append('Registration failed');
 }
 
 function showLogin(){
@@ -148,7 +157,7 @@ $(document).ready(function(){
       $('#logged-out').removeClass('hidden');
     } else {
       $('#logged-in').removeClass('hidden');
-      requestMeData();
+      requestMeData(userToken);
     }
   });
 
