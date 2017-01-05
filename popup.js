@@ -69,12 +69,36 @@ function requestLogin(){
     error: function(err){
       $('#navbar').removeClass('smooth');
       $('#login-form').removeClass('smooth');
-      $('#register-form').removeClass('smooth');
       $('#feedback').html('');
       $('#feedback').removeClass('success');
       $('#feedback').addClass('error');
       $('#feedback').removeClass('hidden');
-      $('#feedback').append('Login failed')
+      $('#feedback').append('Login failed');
+    }
+  });
+}
+
+function requestRegister(){
+  var name = $('#register-form input[name="name"]').val();
+  var email = $('#register-form input[name="email"]').val();
+  var password = $('#register-form input[name="password"]').val();
+  var confirm = $('#register-form input[name="confirm"]').val();
+
+  $.ajax({
+    type: 'POST',
+    url: API + 'api/v1/users',
+    data: { name: name, email: email, password: password, password_confirmation: confirm },
+    success: function(){
+      $('#navbar').removeClass('smooth');
+      $('#register-form').removeClass('smooth');
+      $('#feedback').html('');
+      $('#feedback').removeClass('error');
+      $('#feedback').addClass('success');
+      $('#feedback').removeClass('hidden');
+      $('#feedback').append('Thanks, ' + name + ' please check your email to confirm your registraiton!');
+    },
+    error: function(){
+      console.log("well shit");
     }
   });
 }
@@ -148,6 +172,10 @@ $(document).ready(function(){
 
   $('#login-form').submit(function(){
     requestLogin();
+  })
+
+  $('#register-form').submit(function(){
+    requestRegister();
   })
 
   $('#logout-link').click(function(){
