@@ -7,7 +7,7 @@ function requestMeData(){
     $.ajax({
       type: 'GET',
       url: API + 'api/v1/me',
-      headers: { token: userToken },
+      data: { token: userToken },
       success: function(user){
         $('#user-link').append(user['name'])
       },
