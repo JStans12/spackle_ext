@@ -1,7 +1,6 @@
 var API = 'http://localhost:3000/'
 
 function requestMeData(userToken){
-
   $.ajax({
     type: 'GET',
     url: API + 'api/v1/me',
@@ -188,6 +187,10 @@ $(document).ready(function(){
 
   $('#register-form').submit(function(){
     requestRegister();
+  })
+
+  $('#comment-link').click(function(){
+    $('#new-comment').toggleClass('hidden');
   })
 
   $('#logout-link').click(function(){
