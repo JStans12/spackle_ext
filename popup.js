@@ -1,5 +1,6 @@
 var API = 'http://localhost:3000/'
 var url;
+var userToken;
 getUrl();
 
 function getUrl(callback){
@@ -13,13 +14,14 @@ function getUrl(callback){
   });
 }
 
-function requestMeData(userToken){
+function requestMeData(){
   $.ajax({
     type: 'GET',
     url: API + 'api/v1/me',
     data: { token: userToken },
     success: function(user){
-      $('#user-link').append(user['name'])
+      $('#user-link').append(user['name']);
+      userId = user['id'];
     },
     error: function(err){
       console.error(err);
@@ -101,6 +103,23 @@ function requestRegister(){
   });
 }
 
+function submitComment(parent_id){
+  var body = $('#comment-body').val();
+
+  $.ajax({
+    type: 'POST',
+    url: API + 'api/v1/users/' + userToken + '/comments',
+    data: { body: body, parent_id: parent_id },
+    headers: { url: url },
+    complete: function(){
+      goHome();
+    },
+    error: function(err){
+      console.log(err);
+    }
+  });
+}
+
 function login(user){
   chrome.storage.sync.set({'userToken': user['token']});
   location.reload();
@@ -164,13 +183,13 @@ function goHome(){
 $(document).ready(function(){
 
   chrome.storage.sync.get("userToken", function(token){
-    var userToken = token['userToken'];
+    userToken = token['userToken'];
 
     if (typeof userToken == 'undefined'){
       $('#logged-out').removeClass('hidden');
     } else {
       $('#logged-in').removeClass('hidden');
-      requestMeData(userToken);
+      requestMeData();
     }
   });
 
@@ -190,19 +209,23 @@ $(document).ready(function(){
 
   $('#login-form').submit(function(){
     requestLogin();
-  })
+  });
 
   $('#register-form').submit(function(){
     requestRegister();
-  })
+  });
 
   $('#comment-link').click(function(){
     $('#new-comment').toggleClass('hidden');
-  })
+  });
+
+  $('#page-comment-button').click(function(){
+    submitComment(0);
+  });
 
   $('#logout-link').click(function(){
     logout();
-  })
+  });
 
   $('form').submit(function(e){
     e.preventDefault();
