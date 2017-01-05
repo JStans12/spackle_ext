@@ -96,11 +96,11 @@ function login(user){
 function loginError(err){
   $('#navbar').removeClass('smooth');
   $('#login-form').removeClass('smooth');
-  $('#feedback').html('');
-  $('#feedback').removeClass('success');
-  $('#feedback').addClass('error');
-  $('#feedback').removeClass('hidden');
-  $('#feedback').append('Login failed');
+  $('#feedback').html('')
+                .removeClass('success')
+                .addClass('error')
+                .removeClass('hidden')
+                .append('Login failed');
 }
 
 function logout(){
@@ -111,37 +111,37 @@ function logout(){
 function registrationSuccess(name){
   $('#register-form').removeClass('smooth');
   $('#register-form input').val('');
-  $('#feedback').html('');
-  $('#feedback').removeClass('error');
-  $('#feedback').addClass('success');
-  $('#feedback').removeClass('hidden');
-  $('#feedback').append('Thanks, ' + name + ' please check your email!');
+  $('#feedback').html('')
+                .removeClass('error')
+                .addClass('success')
+                .removeClass('hidden')
+                .append('Thanks, ' + name + ' please check your email!');
 }
 
 function registrationError(err){
   $('#register-form').removeClass('smooth');
   $('#register-form input').val('');
-  $('#feedback').html('');
-  $('#feedback').removeClass('success');
-  $('#feedback').addClass('error');
-  $('#feedback').removeClass('hidden');
-  $('#feedback').append('Registration failed');
+  $('#feedback').html('')
+                .removeClass('success')
+                .addClass('error')
+                .removeClass('hidden')
+                .append('Registration failed');
 }
 
 function showLogin(){
   $('#navbar').removeClass('smooth');
   $('#register-form').addClass('hidden');
-  $('#login-form').removeClass('hidden');
-  $('#login-form').addClass('smooth');
   $('#feedback').addClass('hidden');
+  $('#login-form').removeClass('hidden')
+                  .addClass('smooth');
 }
 
 function showRegister(){
   $('#navbar').removeClass('smooth');
   $('#login-form').addClass('hidden');
-  $('#register-form').removeClass('hidden');
-  $('#register-form').addClass('smooth');
   $('#feedback').addClass('hidden');
+  $('#register-form').removeClass('hidden')
+                      .addClass('smooth');
 }
 
 function goHome(){
