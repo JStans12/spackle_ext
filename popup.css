@@ -87,6 +87,24 @@ body {
   margin-right: -6px;
 }
 
+.new-reply {
+  margin: 16px;
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+.reply-body {
+  width: 100%;
+  height: 76px;
+  border-radius: 5px;
+  resize: none;
+}
+
+.reply-comment-button {
+  float: right;
+  margin-right: -6px;
+}
+
 .comment {
   border-radius: 5px;
   margin-right: 8px;
@@ -136,10 +154,12 @@ body {
 }
 
 .reply {
+  font-family: 'Special Elite', cursive;
   float: right;
   padding-right: 16px;
   padding-bottom: 8px;
   padding-top: 8px;
+  cursor: pointer;
 }
 
 .smooth {
