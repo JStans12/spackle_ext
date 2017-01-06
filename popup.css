@@ -143,7 +143,10 @@ body {
 }
 
 .author {
-  padding-right: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  padding-right: 16px;
+  padding-left: 8px;
 }
 
 .comment-body {
@@ -154,12 +157,12 @@ body {
 }
 
 .reply {
-  font-family: 'Special Elite', cursive;
   float: right;
   padding-right: 16px;
   padding-bottom: 8px;
   padding-top: 8px;
   cursor: pointer;
+  font-family: 'Special Elite', cursive;
 }
 
 .smooth {
