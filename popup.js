@@ -225,8 +225,23 @@ $(document).ready(function(){
   });
 
   $('#comments').on('click', '.reply', function(){
-    $(this).siblings('.new-reply').toggleClass('hidden');
+
+    if (typeof userToken == 'undefined'){
+      $('#modal').removeClass('hidden');
+    } else {
+      $(this).siblings('.new-reply').toggleClass('hidden');
+    }
   });
+
+  $('.close').click(function(){
+    $('#modal').addClass('hidden');
+  });
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      $('#modal').addClass('hidden');
+    }
+  }
 
   $('#comments').on('click', '.reply-comment-button', function(){
     var parent_id = $(this).closest('.comment').attr('data-id');
