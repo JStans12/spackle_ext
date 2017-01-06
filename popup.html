@@ -21,8 +21,9 @@
         <a id='register-link' class='navlink'>Register</a>
       </div>
 
-      <div id='logged-in' class="hidden">
+      <div id='logged-in' class='hidden'>
         <a id='user-link' class='navlink'></a>
+        <a id='comment-link' class='navlink'>Comment</a>
         <a id='logout-link' class='navlink'>Logout</a>
       </div>
 
@@ -54,6 +55,11 @@
   </div>
 
   <div id="feedback" class="hidden"></div>
+
+  <div id="new-comment" class="hidden">
+    <textarea id="comment-body"></textarea>
+    <button id='page-comment-button' class="form-button comment-button">Submit</button>
+  </div>
 
   <div id="comments"></div>
 </body>

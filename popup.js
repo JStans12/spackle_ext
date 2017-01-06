@@ -1,13 +1,27 @@
 var API = 'http://localhost:3000/'
+var url;
+var userToken;
+getUrl();
 
-function requestMeData(userToken){
+function getUrl(callback){
+  chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true
 
+  }, function(tabs){
+    var tab = tabs[0];
+    url = tab.url;
+  });
+}
+
+function requestMeData(){
   $.ajax({
     type: 'GET',
     url: API + 'api/v1/me',
     data: { token: userToken },
     success: function(user){
-      $('#user-link').append(user['name'])
+      $('#user-link').append(user['name']);
+      userId = user['id'];
     },
     error: function(err){
       console.error(err);
@@ -15,7 +29,7 @@ function requestMeData(userToken){
   });
 }
 
-function requestComments(url){
+function requestComments(){
   $.ajax({
     type: 'GET',
     url: API + 'api/v1/comments',
@@ -34,9 +48,11 @@ function displayComments(comments,  depth = 1){
 
     var background
     if(depth % 2 == 0){
-      background = "gainsboro"
+      background = "gainsboro";
+      replyBackground = "white";
     } else {
-      background = "white"
+      background = "white";
+      replyBackground = "gainsboro";
     }
 
     var margin
@@ -46,7 +62,7 @@ function displayComments(comments,  depth = 1){
       margin = 0
     }
 
-    $('#comments').append("<div class='comment parent" + comment['parent_id'] + "' style='margin-left:" + depth * 12 + "px; background-color:" + background + "; margin-top:" + margin + "px;'><div class='ups'><div class='vote'><i class='voter fa fa-lg fa-arrow-circle-o-up' aria-hidden='true'></i><i class='voter fa fa-lg fa-arrow-circle-o-down' aria-hidden='true'></i></div><div class='score'>" + comment['score'] + "</div></div><div class='comment-head'><a class='author' href=''>" + comment['author']['name'] +"</a>" + moment(comment['created_at']).fromNow() + "</div><div class='comment-body'>" + comment['body'] + "</div><div class='comment-footer'><a class='reply' href=''>reply</a></div></div>");
+    $('#comments').append("<div class='comment parent" + comment['parent_id'] + "' data-id='" + comment['id'] + "' style='margin-left:" + depth * 12 + "px; background-color:" + background + "; margin-top:" + margin + "px;'><div class='ups'><div class='vote'><i class='voter fa fa-lg fa-arrow-circle-o-up' aria-hidden='true'></i><i class='voter fa fa-lg fa-arrow-circle-o-down' aria-hidden='true'></i></div><div class='score'>" + comment['score'] + "</div></div><div class='comment-head'><a class='author'>" + comment['author']['name'] +"</a>" + moment(comment['created_at']).fromNow() + "</div><div class='comment-body'>" + comment['body'] + "</div><div class='comment-footer'><a class='reply'>reply</a><div class='new-reply hidden'><textarea class='reply-body' style='background-color: " + replyBackground + ";'></textarea><button class='reply-comment-button form-button comment-button'>Submit</button></div></div></div>");
     displayComments(comment['children'], depth + 1);
   });
 }
@@ -84,6 +100,22 @@ function requestRegister(){
     },
     error: function(err){
       registrationError(err);
+    }
+  });
+}
+
+function submitComment(parent_id, body){
+
+  $.ajax({
+    type: 'POST',
+    url: API + 'api/v1/users/' + userToken + '/comments',
+    data: { body: body, parent_id: parent_id },
+    headers: { url: url },
+    complete: function(){
+      goHome();
+    },
+    error: function(err){
+      console.log(err);
     }
   });
 }
@@ -151,24 +183,17 @@ function goHome(){
 $(document).ready(function(){
 
   chrome.storage.sync.get("userToken", function(token){
-    var userToken = token['userToken'];
+    userToken = token['userToken'];
 
     if (typeof userToken == 'undefined'){
       $('#logged-out').removeClass('hidden');
     } else {
       $('#logged-in').removeClass('hidden');
-      requestMeData(userToken);
+      requestMeData();
     }
   });
 
-  chrome.tabs.query({
-    active: true,
-    lastFocusedWindow: true
-
-  }, function(tabs){
-    var tab = tabs[0];
-    requestComments(tab.url);
-  });
+  requestComments();
 
   $('#login-link').click(function(){
     showLogin();
@@ -184,15 +209,34 @@ $(document).ready(function(){
 
   $('#login-form').submit(function(){
     requestLogin();
-  })
+  });
 
   $('#register-form').submit(function(){
     requestRegister();
-  })
+  });
+
+  $('#comment-link').click(function(){
+    $('#new-comment').toggleClass('hidden');
+  });
+
+  $('#page-comment-button').click(function(){
+    var body = $('#comment-body').val();
+    submitComment(0, body);
+  });
+
+  $('#comments').on('click', '.reply', function(){
+    $(this).siblings('.new-reply').toggleClass('hidden');
+  });
+
+  $('#comments').on('click', '.reply-comment-button', function(){
+    var parent_id = $(this).closest('.comment').attr('data-id');
+    var body = $(this).siblings('.reply-body').val();
+    submitComment(parent_id, body);
+  });
 
   $('#logout-link').click(function(){
     logout();
-  })
+  });
 
   $('form').submit(function(e){
     e.preventDefault();
