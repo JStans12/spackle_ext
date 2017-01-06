@@ -1,7 +1,9 @@
 var API = 'http://localhost:3000/'
 var url;
 var userToken;
+var userId;
 getUrl();
+getUserToken();
 
 function getUrl(callback){
   chrome.tabs.query({
@@ -11,6 +13,16 @@ function getUrl(callback){
   }, function(tabs){
     var tab = tabs[0];
     url = tab.url;
+  });
+}
+
+function getUserToken(){
+  chrome.storage.sync.get("userToken", function(token){
+    userToken = token['userToken'];
+
+    if(userToken !== undefined){
+      requestMeData();
+    }
   });
 }
 
@@ -108,8 +120,8 @@ function submitComment(parent_id, body){
 
   $.ajax({
     type: 'POST',
-    url: API + 'api/v1/users/' + userToken + '/comments',
-    data: { body: body, parent_id: parent_id },
+    url: API + 'api/v1/users/' + userId + '/comments',
+    data: { body: body, parent_id: parent_id, token: userToken },
     headers: { url: url },
     complete: function(){
       goHome();
@@ -182,16 +194,11 @@ function goHome(){
 
 $(document).ready(function(){
 
-  chrome.storage.sync.get("userToken", function(token){
-    userToken = token['userToken'];
-
-    if (typeof userToken == 'undefined'){
-      $('#logged-out').removeClass('hidden');
-    } else {
-      $('#logged-in').removeClass('hidden');
-      requestMeData();
-    }
-  });
+  if (typeof userToken == 'undefined'){
+    $('#logged-out').removeClass('hidden');
+  } else {
+    $('#logged-in').removeClass('hidden');
+  }
 
   requestComments();
 
