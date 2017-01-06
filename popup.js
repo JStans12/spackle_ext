@@ -104,8 +104,7 @@ function requestRegister(){
   });
 }
 
-function submitComment(parent_id){
-  var body = $('#comment-body').val();
+function submitComment(parent_id, body){
 
   $.ajax({
     type: 'POST',
@@ -221,11 +220,18 @@ $(document).ready(function(){
   });
 
   $('#page-comment-button').click(function(){
-    submitComment(0);
+    var body = $('#comment-body').val();
+    submitComment(0, body);
   });
 
   $('#comments').on('click', '.reply', function(){
     $(this).siblings('.new-reply').toggleClass('hidden');
+  });
+
+  $('#comments').on('click', '.reply-comment-button', function(){
+    var parent_id = $(this).closest('.comment').attr('data-id');
+    var body = $(this).siblings('.reply-body').val();
+    submitComment(parent_id, body);
   });
 
   $('#logout-link').click(function(){
