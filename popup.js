@@ -31,6 +31,7 @@ function requestMeData(){
     type: 'GET',
     url: API + 'api/v1/me',
     data: { token: userToken },
+    headers: { url: url },
     success: function(user){
       $('#user-link').append(user['name']);
       userId = user['id'];
