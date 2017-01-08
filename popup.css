@@ -136,6 +136,14 @@ body {
   color: darkcyan;
 }
 
+.vote1 .upvote {
+  color: darkcyan;
+}
+
+.vote-1 .downvote {
+  color: darkcyan;
+}
+
 .comment-head {
   padding-left: 58px;
   padding-bottom: 8px;

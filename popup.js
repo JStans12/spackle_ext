@@ -45,10 +45,10 @@ function requestMeData(){
 function requestComments(){
   $.ajax({
     type: 'GET',
-    url: API + 'api/v1/comments',
+    url: API + 'api/v1/page',
     headers: { url: url },
-    success: function(comments){
-      displayComments(comments);
+    success: function(page){
+      displayComments(page['comments']);
     },
     error: function(err){
       console.error(err);
@@ -56,10 +56,10 @@ function requestComments(){
   });
 }
 
-function displayComments(comments,  depth = 1){
+function displayComments(comments, depth = 1){
   $.each(comments, function(index, comment){
 
-    var background
+    var background;
     if(depth % 2 == 0){
       background = "gainsboro";
       replyBackground = "white";
@@ -68,14 +68,24 @@ function displayComments(comments,  depth = 1){
       replyBackground = "gainsboro";
     }
 
-    var margin
+    var margin;
     if(depth == 1){
       margin = 20
     } else {
       margin = 0
     }
 
-    $('#comments').append("<div class='comment parent" + comment['parent_id'] + "' data-id='" + comment['id'] + "' style='margin-left:" + depth * 12 + "px; background-color:" + background + "; margin-top:" + margin + "px;'><div class='ups'><div class='vote'><i class='voter fa fa-lg fa-arrow-circle-o-up' aria-hidden='true'></i><i class='voter fa fa-lg fa-arrow-circle-o-down' aria-hidden='true'></i></div><div class='score'>" + comment['score'] + "</div></div><div class='comment-head'><a class='author'>" + comment['author']['name'] +"</a>" + moment(comment['created_at']).fromNow() + "</div><div class='comment-body'>" + comment['body'] + "</div><div class='comment-footer'><a class='reply'>reply</a><div class='new-reply hidden'><textarea class='reply-body' style='background-color: " + replyBackground + ";'></textarea><button class='reply-comment-button form-button comment-button'>Submit</button></div></div></div>");
+    $('#comments').append("<div class='comment parent" + comment['parent_id'] + "' data-id='" + comment['id'] + "' style='margin-left:" + depth * 12 + "px; background-color:" + background + "; margin-top:" + margin + "px;'><div class='ups'><div class='vote'><i class='upvote voter fa fa-lg fa-arrow-circle-o-up' aria-hidden='true'></i><i class='downvote voter fa fa-lg fa-arrow-circle-o-down' aria-hidden='true'></i></div><div class='score'>" + comment['score'] + "</div></div><div class='comment-head'><a class='author'>" + comment['author']['name'] +"</a>" + moment(comment['created_at']).fromNow() + "</div><div class='comment-body'>" + comment['body'] + "</div><div class='comment-footer'><a class='reply'>reply</a><div class='new-reply hidden'><textarea class='reply-body' style='background-color: " + replyBackground + ";'></textarea><button class='reply-comment-button form-button comment-button'>Submit</button></div></div></div>");
+
+    var vote = 0;
+    $.each(comment['ups'], function(index, up){
+      if(userId && userId === up['user_id']){
+        vote = up['value']
+      }
+    })
+
+    $('*[data-id=' + comment['id'] + '] .ups .vote').addClass("vote" + vote + "")
+
     displayComments(comment['children'], depth + 1);
   });
 }
