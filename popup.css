@@ -144,6 +144,14 @@ body {
   color: coral;
 }
 
+.upvote {
+  cursor: pointer;
+}
+
+.downvote {
+  cursor: pointer;
+}
+
 .comment-head {
   padding-left: 58px;
   padding-bottom: 8px;

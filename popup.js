@@ -255,6 +255,16 @@ $(document).ready(function(){
     $('#modal').addClass('hidden');
   });
 
+  $('#comments').on('click', '.upvote', function(){
+    $(this).parent().toggleClass('vote1')
+           .removeClass('vote-1');
+  });
+
+  $('#comments').on('click', '.downvote', function(){
+    $(this).parent().toggleClass('vote-1')
+           .removeClass('vote1');
+  });
+
   window.onclick = function(event) {
     if (event.target == modal) {
       $('#modal').addClass('hidden');
