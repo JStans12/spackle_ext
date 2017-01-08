@@ -79,7 +79,7 @@ function displayComments(comments, depth = 1){
 
     var vote = 0;
     $.each(comment['ups'], function(index, up){
-      if(userId && userId === up['user_id']){
+      if(userId !== undefined && userId === up['user_id']){
         vote = up['value']
       }
     })
@@ -256,13 +256,21 @@ $(document).ready(function(){
   });
 
   $('#comments').on('click', '.upvote', function(){
-    $(this).parent().toggleClass('vote1')
-           .removeClass('vote-1');
+    if(userId !== undefined){
+      $(this).parent().toggleClass('vote1')
+             .removeClass('vote-1');
+    } else {
+      $('#modal').removeClass('hidden');
+    }
   });
 
   $('#comments').on('click', '.downvote', function(){
-    $(this).parent().toggleClass('vote-1')
-           .removeClass('vote1');
+    if(userId !== undefined){
+      $(this).parent().toggleClass('vote-1')
+             .removeClass('vote1');
+    } else {
+      $('#modal').removeClass('hidden');
+    }
   });
 
   window.onclick = function(event) {
