@@ -128,7 +128,6 @@ function requestRegister(){
 }
 
 function submitComment(parent_id, body){
-
   $.ajax({
     type: 'POST',
     url: API + 'api/v1/users/' + userId + '/comments',
@@ -139,6 +138,18 @@ function submitComment(parent_id, body){
     },
     error: function(err){
       console.log(err);
+    }
+  });
+}
+
+function submitVote(commentId, value){
+  $.ajax({
+    type: 'POST',
+    url: API + 'api/v1/users/' + userId + '/ups',
+    data: { token: userToken, comment_id: commentId, value: value },
+    success: function(){
+    },
+    error: function(){
     }
   });
 }
@@ -257,8 +268,12 @@ $(document).ready(function(){
 
   $('#comments').on('click', '.upvote', function(){
     if(userId !== undefined){
+      var commentId = $(this).closest('.comment').attr('data-id');
+
       $(this).parent().toggleClass('vote1')
              .removeClass('vote-1');
+
+      submitVote(commentId, 1);
     } else {
       $('#modal').removeClass('hidden');
     }
@@ -266,8 +281,12 @@ $(document).ready(function(){
 
   $('#comments').on('click', '.downvote', function(){
     if(userId !== undefined){
+      var commentId = $(this).closest('.comment').attr('data-id');
+
       $(this).parent().toggleClass('vote-1')
              .removeClass('vote1');
+
+      submitVote(commentId, -1);
     } else {
       $('#modal').removeClass('hidden');
     }
