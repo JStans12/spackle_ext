@@ -238,6 +238,11 @@ body {
   width: 80%;
 }
 
+.modal-button {
+  font-family: 'Special Elite', cursive;
+  padding: 4px;
+}
+
 /* The Close Button */
 .close {
   color: #aaaaaa;

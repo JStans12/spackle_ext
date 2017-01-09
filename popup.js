@@ -298,6 +298,16 @@ $(document).ready(function(){
     $('#modal').addClass('hidden');
   });
 
+  $('.yes').click(function(){
+    var commentId = $('#remove-modal').data('commentId');
+    submitDestroyComment(commentId);
+    $('#remove-modal').addClass('hidden');
+  });
+
+  $('.cancel').click(function(){
+    $('#remove-modal').addClass('hidden');
+  });
+
   $('#comments').on('click', '.upvote', function(){
     if(userId !== undefined){
       var $comment = $(this).closest('.comment')
@@ -378,7 +388,8 @@ $(document).ready(function(){
     var comment = $(this).closest('.comment');
     var commentId = comment.attr('data-id');
 
-    submitDestroyComment(commentId);
+    $('#remove-modal').removeClass('hidden');
+    $('#remove-modal').data('commentId', commentId)
   });
 
   $('#logout-link').click(function(){
