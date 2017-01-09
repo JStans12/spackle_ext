@@ -268,7 +268,17 @@ $(document).ready(function(){
 
   $('#comments').on('click', '.upvote', function(){
     if(userId !== undefined){
-      var commentId = $(this).closest('.comment').attr('data-id');
+      var $comment = $(this).closest('.comment')
+      var commentId = $comment.attr('data-id');
+      var score = $comment.children('.ups').children('.score');
+
+      if($comment.children('.ups').children('.vote').hasClass('vote1')){
+        score.html( parseInt(score.html()) - 1);
+      } else if($comment.children('.ups').children('.vote').hasClass('vote-1')){
+        score.html( parseInt(score.html()) + 2);
+      } else {
+        score.html( parseInt(score.html()) + 1);
+      }
 
       $(this).parent().toggleClass('vote1')
              .removeClass('vote-1');
@@ -281,7 +291,17 @@ $(document).ready(function(){
 
   $('#comments').on('click', '.downvote', function(){
     if(userId !== undefined){
-      var commentId = $(this).closest('.comment').attr('data-id');
+      var $comment = $(this).closest('.comment')
+      var commentId = $comment.attr('data-id');
+      var score = $comment.children('.ups').children('.score');
+
+      if($comment.children('.ups').children('.vote').hasClass('vote-1')){
+        score.html( parseInt(score.html()) + 1);
+      } else if($comment.children('.ups').children('.vote').hasClass('vote1')){
+        score.html( parseInt(score.html()) - 2);
+      } else {
+        score.html( parseInt(score.html()) - 1);
+      }
 
       $(this).parent().toggleClass('vote-1')
              .removeClass('vote1');
