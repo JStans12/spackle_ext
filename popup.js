@@ -160,6 +160,20 @@ function submitUpdateComment(commentId, body){
   });
 }
 
+function submitDestroyComment(commentId){
+  $.ajax({
+    type: 'DELETE',
+    url: API + 'api/v1/users/' + userId + '/comments/' + commentId,
+    data: { token: userToken },
+    complete: function(){
+      goHome();
+    },
+    error: function(err){
+      console.log(err);
+    }
+  });
+}
+
 function submitVote(commentId, value){
   $.ajax({
     type: 'POST',
@@ -358,6 +372,13 @@ $(document).ready(function(){
                       .children('#comment-edit').val();
 
     submitUpdateComment(commentId, body);
+  });
+
+  $('#comments').on('click', '.remove', function(){
+    var comment = $(this).closest('.comment');
+    var commentId = comment.attr('data-id');
+
+    submitDestroyComment(commentId);
   });
 
   $('#logout-link').click(function(){
