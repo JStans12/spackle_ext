@@ -146,6 +146,20 @@ function submitComment(parent_id, body){
   });
 }
 
+function submitUpdateComment(commentId, body){
+  $.ajax({
+    type: 'PUT',
+    url: API + 'api/v1/users/' + userId + '/comments/' + commentId,
+    data: { body: body, token: userToken },
+    complete: function(){
+      goHome();
+    },
+    error: function(err){
+      console.log(err);
+    }
+  });
+}
+
 function submitVote(commentId, value){
   $.ajax({
     type: 'POST',
@@ -323,9 +337,9 @@ $(document).ready(function(){
   }
 
   $('#comments').on('click', '.reply-comment-button', function(){
-    var parent_id = $(this).closest('.comment').attr('data-id');
+    var parentId = $(this).closest('.comment').attr('data-id');
     var body = $(this).siblings('.reply-body').val();
-    submitComment(parent_id, body);
+    submitComment(parentId, body);
   });
 
   $('#comments').on('click', '.edit', function(){
@@ -334,6 +348,16 @@ $(document).ready(function(){
     $body.children('.body-content').toggleClass('hidden');
     $body.children('.body-edit').toggleClass('hidden');
     $body.children('.body-edit').children('#comment-edit').val(content);
+  });
+
+  $('#comments').on('click', '#comment-edit-button', function(){
+    var comment = $(this).closest('.comment');
+    var commentId = comment.attr('data-id');
+    var body = comment.children('.comment-body')
+                      .children('.body-edit')
+                      .children('#comment-edit').val();
+
+    submitUpdateComment(commentId, body);
   });
 
   $('#logout-link').click(function(){
