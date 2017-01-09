@@ -75,11 +75,16 @@ body {
   padding-bottom: 8px;
 }
 
-#comment-body {
+#comment-body, #comment-edit {
   width: 100%;
   height: 76px;
   border-radius: 5px;
   resize: none;
+}
+
+.body-edit {
+  width: 100%;
+  margin-bottom: 14px;
 }
 
 .comment-button {
@@ -179,6 +184,10 @@ body {
   padding-top: 8px;
   cursor: pointer;
   font-family: 'Special Elite', cursive;
+}
+
+#comment-edit-button{
+
 }
 
 .smooth {
