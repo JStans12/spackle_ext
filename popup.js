@@ -198,7 +198,7 @@ function loginError(err){
                 .removeClass('success')
                 .addClass('error')
                 .removeClass('hidden')
-                .append('Login failed');
+                .append('Login failed: ' + err.responseText);
 }
 
 function logout(){
