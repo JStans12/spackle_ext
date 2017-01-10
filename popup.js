@@ -143,7 +143,7 @@ function submitComment(parent_id, body){
     url: API + 'api/v1/users/' + userId + '/comments',
     data: { body: body, parent_id: parent_id, token: userToken },
     headers: { url: url },
-    complete: function(){
+    success: function(){
       goHome();
     },
     error: function(err){
@@ -157,7 +157,7 @@ function submitUpdateComment(commentId, body){
     type: 'PUT',
     url: API + 'api/v1/users/' + userId + '/comments/' + commentId,
     data: { body: body, token: userToken },
-    complete: function(){
+    success: function(){
       goHome();
     },
     error: function(err){
@@ -171,7 +171,7 @@ function submitDestroyComment(commentId){
     type: 'DELETE',
     url: API + 'api/v1/users/' + userId + '/comments/' + commentId,
     data: { token: userToken },
-    complete: function(){
+    success: function(){
       goHome();
     },
     error: function(err){
