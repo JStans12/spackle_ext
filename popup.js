@@ -33,7 +33,7 @@ function requestMeData(){
     data: { token: userToken },
     headers: { url: url },
     success: function(user){
-      $('#user-link').append(user['name']);
+      $('#user-link').append(user['name'] + " (" + user['score'] + ")");
       userId = user['id'];
     },
     error: function(err){
