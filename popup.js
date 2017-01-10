@@ -1,4 +1,4 @@
-var API = 'http://www.spackle.co/'
+var API = 'http://localhost:3000/'
 var url;
 var userToken;
 var userId;
@@ -223,7 +223,7 @@ function registrationError(err){
                 .removeClass('success')
                 .addClass('error')
                 .removeClass('hidden')
-                .append('Registration failed');
+                .append('Registration failed: ' + err.responseText + '');
 }
 
 function showLogin(){
