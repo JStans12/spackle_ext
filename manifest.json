@@ -4,6 +4,10 @@
   "name": "Spackle",
   "version": "0.1",
 
+  "icons": { "16": "s16.png",
+           "48": "s48.png",
+          "128": "s128.png" },
+
   "browser_action": {
     "default_popup": "popup.html"
   },
