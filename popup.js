@@ -1,4 +1,4 @@
-var API = 'http://localhost:3000/'
+var API = 'http://www.spackle.co/'
 var url;
 var userToken;
 var userId;
