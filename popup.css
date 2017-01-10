@@ -39,6 +39,10 @@ body {
   padding-right: 22px;
 }
 
+#user-link {
+  cursor: initial;
+}
+
 #user-forms{
   font-family: 'Special Elite', cursive;
 }
@@ -164,7 +168,6 @@ body {
 }
 
 .author {
-  cursor: pointer;
   font-size: 14px;
   padding-right: 16px;
   padding-left: 8px;
