@@ -75,7 +75,13 @@ function displayComments(comments, depth = 1){
       margin = 0
     }
 
-    $('#comments').append("<div class='comment parent" + comment['parent_id'] + "' data-id='" + comment['id'] + "' style='margin-left:" + depth * 12 + "px; background-color:" + background + "; margin-top:" + margin + "px;'><div class='ups'><div class='vote'><i class='upvote voter fa fa-lg fa-arrow-circle-o-up' aria-hidden='true'></i><i class='downvote voter fa fa-lg fa-arrow-circle-o-down' aria-hidden='true'></i></div><div class='score'>" + comment['score'] + "</div></div><div class='comment-head'><a class='author'>" + comment['author']['name'] +"</a>" + moment(comment['created_at']).fromNow() + "</div><div class='comment-body'><div class='body-content'>" + comment['body'] + "</div><div class='body-edit hidden'><textarea id='comment-edit' style='background-color:" + background + ";'></textarea><button id='comment-edit-button' class='form-button comment-button'>Submit</button></div></div><div class='comment-footer'><a class='reply'>reply</a><div class='update-comment hidden'><a class='remove'>remove</a><a class='edit'>edit</a></div><div class='new-reply hidden'><textarea class='reply-body' style='background-color: " + replyBackground + ";'></textarea><button class='reply-comment-button form-button comment-button'>Submit</button></div></div></div>");
+    if(comment['author']['name'] == "deleted"){
+      comment['author']['score'] = "";
+    } else {
+      comment['author']['score'] = " (" + comment['author']['score'] + ")"
+    }
+
+    $('#comments').append("<div class='comment parent" + comment['parent_id'] + "' data-id='" + comment['id'] + "' style='margin-left:" + depth * 12 + "px; background-color:" + background + "; margin-top:" + margin + "px;'><div class='ups'><div class='vote'><i class='upvote voter fa fa-lg fa-arrow-circle-o-up' aria-hidden='true'></i><i class='downvote voter fa fa-lg fa-arrow-circle-o-down' aria-hidden='true'></i></div><div class='score'>" + comment['score'] + "</div></div><div class='comment-head'><a class='author'>" + comment['author']['name'] + comment['author']['score'] + "</a>" + moment(comment['created_at']).fromNow() + "</div><div class='comment-body'><div class='body-content'>" + comment['body'] + "</div><div class='body-edit hidden'><textarea id='comment-edit' style='background-color:" + background + ";'></textarea><button id='comment-edit-button' class='form-button comment-button'>Submit</button></div></div><div class='comment-footer'><a class='reply'>reply</a><div class='update-comment hidden'><a class='remove'>remove</a><a class='edit'>edit</a></div><div class='new-reply hidden'><textarea class='reply-body' style='background-color: " + replyBackground + ";'></textarea><button class='reply-comment-button form-button comment-button'>Submit</button></div></div></div>");
 
     var vote = 0;
     $.each(comment['ups'], function(index, up){
